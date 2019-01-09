@@ -15,7 +15,7 @@ class Profile extends Component {
         this.state = {
             firstName: '',
             lastName: '',
-            treatment: 'Mr',
+            honorific: 'Mr',
             email: '',
             phone: '',
             password: '',
@@ -26,9 +26,9 @@ class Profile extends Component {
         this.validationSchema = Yup.object().shape({
             firstName: Yup.string().required('Required'),
             lastName: Yup.string().required('Required'),
-            treatment: Yup.string().oneOf(['Mr', 'Ms']).required('Required'),
+            honorific: Yup.string().oneOf(['Mr', 'Ms']).required('Required'),
             email: Yup.string().email().required('Required'),
-            phone: Yup.string().matches(/^(?:(55\d{2})|\d{2})[6-9]\d{8}$/, 'Phone doesnt match pattern XX XXXXX XXXX').required('Required'),
+            phone: Yup.string().matches(/^(?:(55\d{2})|\d{2})[6-9]\d{8}$/, 'Phone doesn\'t match pattern XX XXXXX XXXX').required('Required'),
             password: Yup.string().required('Required'),
             passwordConfirmation: Yup.string().oneOf([Yup.ref('password')], 'Passwords don\'t match').required('Required')
         })
@@ -43,8 +43,7 @@ class Profile extends Component {
                     firstName,
                     lastName,
                     avatar,
-                    email: email || '',
-                    phone: '49999999999'
+                    email: email || ''
                 });
             })
             .catch(console.error)
@@ -75,13 +74,16 @@ class Profile extends Component {
                                     <div className="row">
                                         <FormGroup
                                             width={'col-md-2'}
-                                            error={errors.treatment}
+                                            error={errors.honorific}
                                             input={
                                                 <Select
                                                     id={'input_sex'}
-                                                    name={'treatment'}
-                                                    options={[{ value: 'Mr', label: 'Mr.' }, { value: 'Ms', label: 'Ms.' }]}
-                                                    value={values.treatment}
+                                                    name={'honorific'}
+                                                    options={[
+                                                        { value: 'Mr', label: 'Mr.' },
+                                                        { value: 'Ms', label: 'Ms.' }
+                                                    ]}
+                                                    value={values.honorific}
                                                     handleChange={handleChange}
                                                 />
                                             }
@@ -142,11 +144,10 @@ class Profile extends Component {
                                                 label={'Phone Number'}
                                                 input={
                                                     <Input
-                                                        id={'tel'}
+                                                        id={'phone'}
                                                         type={'text'}
                                                         name={'phone'}
                                                         value={values.phone}
-                                                        placeholder={'49 988888888'}
                                                         handleChange={handleChange}
                                                     />
                                                 }
@@ -178,9 +179,9 @@ class Profile extends Component {
                                                 label={'Password (confirm)'}
                                                 input={
                                                     <Input
-                                                        id={'password_conf'}
+                                                        id={'passwordConfirmation'}
                                                         type={'password'}
-                                                        name={'password_conf'}
+                                                        name={'passwordConfirmation'}
                                                         value={values.passwordConfirmation}
                                                         placeholder={'Type your password again'}
                                                         handleChange={handleChange}

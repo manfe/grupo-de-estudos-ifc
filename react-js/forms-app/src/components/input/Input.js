@@ -7,7 +7,7 @@ class Input extends Component {
             <input
                 className="form-control"
                 id={this.props.id}
-                placeholder={this.props.placeholder}
+                placeholder={this.props.placeholder || ''}
                 type={this.props.type}
                 value={this.props.value}
                 onChange={this.props.handleChange}
