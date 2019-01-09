@@ -3,6 +3,9 @@ import { Formik } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
 import './Profile.css';
+import Input from '../input/Input'
+import Select from '../select/Select'
+import FormGroup from '../form-group/FormGroup'
 
 class Profile extends Component {
 
@@ -33,7 +36,7 @@ class Profile extends Component {
 
     componentDidMount() {
         axios.get(`https://api.github.com/users/${this.props.user}`)
-            .then(({ data: { name, email, avatar_url: avatar }}) => {
+            .then(({ data: { name, email, avatar_url: avatar } }) => {
                 const firstName = name.split(' ').shift()
                 const lastName = name.split(' ').pop()
                 this.setState({
@@ -70,21 +73,47 @@ class Profile extends Component {
                                     <img id="img_sex" className="person-img" alt="Foto de Perfil" src={this.state.avatar} />
                                     <h2 id="who_message" className="card-title">Who are you ?</h2>
                                     <div className="row">
-                                        <div className="form-group col-md-2">
-                                            <select id="input_sex" name="treatment" value={values.treatment} className="form-control" onChange={handleChange}>
-                                                <option value="Mr">Mr.</option>
-                                                <option value="Ms">Ms.</option>
-                                            </select>
-                                            {errors.treatment && <div className="input-feedback">{errors.treatment}</div>}
-                                        </div>
-                                        <div className="form-group col-md-5">
-                                            <input id="first_name" type="text" name="firstName" value={values.firstName} className="form-control" placeholder="First name" onChange={handleChange} />
-                                            {errors.firstName && <div id="first_name_feedback" className="invalid-feedback">{errors.firstName}</div>}
-                                        </div>
-                                        <div className="form-group col-md-5">
-                                            <input id="last_name" type="text" name="lastName" value={values.lastName} className="form-control" placeholder="Last name" onChange={handleChange} />
-                                            {errors.lastName && <div id="last_name_feedback" className="invalid-feedback">{errors.lastName}</div>}
-                                        </div>
+                                        <FormGroup
+                                            width={'col-md-2'}
+                                            error={errors.treatment}
+                                            input={
+                                                <Select
+                                                    id={'input_sex'}
+                                                    name={'treatment'}
+                                                    options={[{ value: 'Mr', label: 'Mr.' }, { value: 'Ms', label: 'Ms.' }]}
+                                                    value={values.treatment}
+                                                    handleChange={handleChange}
+                                                />
+                                            }
+                                        />
+                                        <FormGroup
+                                            width={'col-md-5'}
+                                            error={errors.firstName}
+                                            input={
+                                                <Input
+                                                    id={'first_name'}
+                                                    type={'text'}
+                                                    name={'firstName'}
+                                                    value={values.firstName}
+                                                    placeholder={'First Name'}
+                                                    handleChange={handleChange}
+                                                />
+                                            }
+                                        />
+                                        <FormGroup
+                                            width={'col-md-5'}
+                                            error={errors.lastName}
+                                            input={
+                                                <Input
+                                                    id={'last_name'}
+                                                    type={'text'}
+                                                    name={'lastName'}
+                                                    value={values.lastName}
+                                                    placeholder={'Last Name'}
+                                                    handleChange={handleChange}
+                                                />
+                                            }
+                                        />
                                     </div>
                                 </div>
                             </div>
@@ -94,16 +123,34 @@ class Profile extends Component {
                                     <div className="card">
                                         <div className="card-body">
                                             <h2 className="card-title">How to contact you ?</h2>
-                                            <div className="form-group">
-                                                <label htmlFor="email" className="col-form-label">Email</label>
-                                                <input type="email" name="email" value={values.email} className="form-control" id="email" placeholder="example@gmail.com" onChange={handleChange} />
-                                                {errors.email && <div id="email_feedback" className="invalid-feedback">{errors.email}</div>}
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="tel" className="col-form-label">Phone number</label>
-                                                <input type="text" name="phone" value={values.phone} className="form-control" id="tel" placeholder="49 988888888" onChange={handleChange} />
-                                                {errors.phone && <div id="phone_feedback" className="invalid-feedback">{errors.phone}</div>}
-                                            </div>
+                                            <FormGroup
+                                                error={errors.email}
+                                                label={'Email'}
+                                                input={
+                                                    <Input
+                                                        id={'email'}
+                                                        type={'text'}
+                                                        name={'email'}
+                                                        value={values.email}
+                                                        placeholder={'example@gmail.com'}
+                                                        handleChange={handleChange}
+                                                    />
+                                                }
+                                            />
+                                            <FormGroup
+                                                error={errors.phone}
+                                                label={'Phone Number'}
+                                                input={
+                                                    <Input
+                                                        id={'tel'}
+                                                        type={'text'}
+                                                        name={'phone'}
+                                                        value={values.phone}
+                                                        placeholder={'49 988888888'}
+                                                        handleChange={handleChange}
+                                                    />
+                                                }
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -112,23 +159,39 @@ class Profile extends Component {
                                     <div className="card">
                                         <div className="card-body">
                                             <h2 className="card-title">Securize your account !</h2>
-                                            <div className="form-group">
-                                                <label htmlFor="password" className="col-form-label">Pasword</label>
-                                                <input type="password" name="password" value={values.password} className="form-control" id="password" placeholder="Type your password" onChange={handleChange} />
-                                                {errors.password && <div id="password_feedback" className="invalid-feedback">{errors.password}</div>}
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="password_conf" className="col-form-label">Pasword (confirm)</label>
-                                                <input type="password" name="passwordConfirmation" value={values.passwordConfirmation} className="form-control" id="password_conf" placeholder="Type your password again" onChange={handleChange} />
-                                                {errors.passwordConfirmation && <div id="password_confirmation_feedback" className="invalid-feedback">{errors.passwordConfirmation}</div>}
-                                            </div>
+                                            <FormGroup
+                                                error={errors.password}
+                                                label={'Password'}
+                                                input={
+                                                    <Input
+                                                        id={'password'}
+                                                        type={'password'}
+                                                        name={'password'}
+                                                        value={values.password}
+                                                        placeholder={'Type your password'}
+                                                        handleChange={handleChange}
+                                                    />
+                                                }
+                                            />
+                                            <FormGroup
+                                                error={errors.passwordConfirmation}
+                                                label={'Password (confirm)'}
+                                                input={
+                                                    <Input
+                                                        id={'password_conf'}
+                                                        type={'password'}
+                                                        name={'password_conf'}
+                                                        value={values.passwordConfirmation}
+                                                        placeholder={'Type your password again'}
+                                                        handleChange={handleChange}
+                                                    />
+                                                }
+                                            />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="margin-top-10">
-                                <input type="submit" className="btn btn-primary btn-lg btn-block" value="Sign up !" />
-                            </div>
+                            <input type="submit" className="btn btn-primary btn-lg btn-block" value="Sign up !" />
                         </form>
                     </div>
                 )}
