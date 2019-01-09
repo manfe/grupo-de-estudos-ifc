@@ -16,7 +16,8 @@ class Profile extends Component {
             email: '',
             phone: '',
             password: '',
-            passwordConfirmation: ''
+            passwordConfirmation: '',
+            avatar: 'https://visualpharm.com/assets/217/Life%20Cycle-595b40b75ba036ed117d9ef0.svg'
         }
 
         this.validationSchema = Yup.object().shape({
@@ -32,12 +33,13 @@ class Profile extends Component {
 
     componentDidMount() {
         axios.get(`https://api.github.com/users/${this.props.user}`)
-            .then(({ data: { name, email }}) => {
+            .then(({ data: { name, email, avatar_url: avatar }}) => {
                 const firstName = name.split(' ').shift()
                 const lastName = name.split(' ').pop()
                 this.setState({
                     firstName,
                     lastName,
+                    avatar,
                     email: email || '',
                     phone: '49999999999'
                 });
@@ -65,8 +67,7 @@ class Profile extends Component {
                         <form onSubmit={handleSubmit}>
                             <div className="card person-card">
                                 <div className="card-body">
-                                    <img id="img_sex" className="person-img" alt="Foto de Perfil"
-                                        src="https://visualpharm.com/assets/217/Life%20Cycle-595b40b75ba036ed117d9ef0.svg" />
+                                    <img id="img_sex" className="person-img" alt="Foto de Perfil" src={this.state.avatar} />
                                     <h2 id="who_message" className="card-title">Who are you ?</h2>
                                     <div className="row">
                                         <div className="form-group col-md-2">
